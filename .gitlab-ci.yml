@@ -7,7 +7,8 @@ build:
     - apt install android-tools-mkbootimg bc bison build-essential ca-certificates cpio curl flex git kmod libssl-dev libtinfo5 python2 sudo unzip wget xz-utils -y --no-install-recommends
     - ln -sf python2.7 /usr/bin/python
     - wget https://raw.githubusercontent.com/LineageOS/android_system_core/lineage-17.1/mkbootimg/mkbootimg.py -O /usr/bin/mkbootimg
-    - ./build.sh
+    - git clone https://gitlab.com/ubports/community-ports/halium-generic-adaptation-build-tools build
+    - ./build/build.sh
   artifacts:
     paths:
       - out/*
@@ -16,7 +17,8 @@ flashable:
   stage: deploy
   script:
     - apt update
-    - apt install -y img2simg jq sudo wget xz-utils
+    - apt install -y git img2simg jq sudo wget xz-utils
+    - git clone https://gitlab.com/ubports/community-ports/halium-generic-adaptation-build-tools build
     - DEVICE="$(source deviceinfo && echo $deviceinfo_codename)"
     - ./build/fetch-and-prepare-latest-ota.sh "16.04/arm64/android9/devel" "$DEVICE" ota
     - mkdir -p out
@@ -31,7 +33,8 @@ devel-flashable:
   stage: deploy
   script:
     - apt update
-    - apt install -y img2simg jq sudo wget xz-utils
+    - apt install -y git img2simg jq sudo wget xz-utils
+    - git clone https://gitlab.com/ubports/community-ports/halium-generic-adaptation-build-tools build
     - DEVICE="$(source deviceinfo && echo $deviceinfo_codename)"
     - ./build/prepare-fake-ota.sh out/device_$DEVICE.tar.xz ota
     - mkdir -p out
