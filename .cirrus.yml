@@ -1,0 +1,35 @@
+env:
+    CIRRUS_CLONE_DEPTH: 1
+    CIRRUS_WORKING_DIR: "/tmp/ci"
+
+    rclone_conf: "null"
+
+task:
+  name: master
+  timeout_in: 2h
+  container:
+    image: dopaemon/docker-image:MultiROM
+    cpu: 4
+    memory: 8G
+
+  Install_Packages_Ubuntu_script:
+    - rm -rf *
+    - sudo apt-get update
+    - sudo apt-get install -y ccache rclone git-lfs git img2simg jq sudo wget xz-utils bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev pigz mkbootimg bc build-essential ca-certificates cpio curl git kmod libssl-dev libtinfo5 sudo unzip wget xz-utils img2simg jq xz-utils android-tools-mkbootimg python2
+  Git_Clone_From_Github_script:
+    - git clone -b halium-11.0 --single-branch https://github.com/KernelPanic-OpenSource/xiaomi-sweet.git /tmp/origin
+    - git clone https://gitlab.com/ubports/community-ports/halium-generic-adaptation-build-tools -b halium-11 /tmp/origin/build
+  Rclone_Configure_script:
+    - mkdir -p ~/.config/rclone
+    - echo "$rclone_conf" > ~/.config/rclone/rclone.conf
+  Compile_Kernel_script:
+    - cd /tmp/origin
+    - ln -sf python2.7 /usr/bin/python
+    - wget https://raw.githubusercontent.com/LineageOS/android_system_core/lineage-17.1/mkbootimg/mkbootimg.py -O /usr/bin/mkbootimg
+    - sudo chmod +x /usr/bin/mkbootimg
+    - DEVICE="$(source deviceinfo && echo $deviceinfo_codename)"
+    - ./build/prepare-fake-ota.sh out/device_$DEVICE.tar.xz ota
+    - ./build/system-image-from-ota.sh ota/ubuntu_command out
+    - mv out/rootfs.img out/ubuntu.img
+    - mkdir -p out
+    - ls out
