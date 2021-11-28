@@ -15,7 +15,7 @@ task:
   Install_Packages_Ubuntu_script:
     - rm -rf *
     - sudo apt-get update
-    - sudo apt-get install -y ccache rclone git-lfs git img2simg jq sudo wget xz-utils bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev pigz mkbootimg bc build-essential ca-certificates cpio curl git kmod libssl-dev libtinfo5 sudo unzip wget xz-utils img2simg jq xz-utils android-tools-mkbootimg python2
+    - sudo apt-get install -y ccache rclone git-lfs git img2simg jq sudo wget xz-utils bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev pigz mkbootimg bc build-essential ca-certificates cpio curl git kmod libssl-dev libtinfo5 sudo unzip wget xz-utils img2simg jq xz-utils android-tools-mkbootimg python2.7
   Git_Clone_From_Github_script:
     - git clone -b halium-11.0 --single-branch https://github.com/KernelPanic-OpenSource/xiaomi-sweet.git /tmp/origin
     - git clone https://gitlab.com/ubports/community-ports/halium-generic-adaptation-build-tools -b halium-11 /tmp/origin/build
